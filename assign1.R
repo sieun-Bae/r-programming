@@ -93,7 +93,6 @@ m2 <- matrix(data = c(1,2,3,4,44,43,42,41), ncol = 4, byrow = TRUE)
 #
 # Type your code below
 m3 <- cbind(m1, c(2,4,6,8))
-m3
 
 # iv) Add a row to m2 to produce the following matrix, m4
 # [,1] [,2] [,3] [,4]
@@ -103,7 +102,6 @@ m3
 #
 # Type your code below
 m4 <- rbind(m2, c(3, 0, -3, -6))
-m4
 
 # v) What is the result of multiplying (element-by-element) the 2nd row 
 # of m3 with the 3rd column of m4?
@@ -122,38 +120,39 @@ m3[2,] * m4[,3]
 # clothing items.
 #
 # Type your code below
-
+clothes_data <- c("L", "M", "XS", "S", "XL", "XS", "M", "M", "L", "XL", "S", "M")
+clothes_factor <- factor(clothes_data)
 
 # ii) You think that it's more appropriate to order the clothes by 
 # their sizes, i.e. XS being the smallest and XL being the largest. 
 # Modify clothes_factor to be ordered according to these levels.
 #
 # Type your code below
-
+clothes_factor <- factor(clothes_data, levels= c("XS", "S", "M", "L", "XL"), ordered = TRUE)
 
 # iii) Check if the 3rd clothing item is smaller than the 9th item
 #
 # Type your code below
+clothes_factor[3] < clothes_factor[9]
 
-
-# Answer: 
+# Answer: TRUE
 
 # iv) Change the size levels to the following 
 # –XS: "X-Small",S:"Small", M: "Medium",L: "Large", XL: "X-Large"
 # Type your code below
-
+levels(clothes_factor) <- c("X-Small", "Small", "Medium", "Large", "X-Large")
 
 # v) How many clothing items are "Medium" or bigger?
 # Type your code below
+length(clothes_factor[clothes_factor >= "Medium"])
 
-
-# Answer: 
+# Answer: 8
 
 # vi) Sizes that are too big or too small are not useful. 
 # Create a new factor clothes_factor2 that only considers sizes 
 # Small, Medium and Large. 
 # Type your code below
-
+clothes_factor2 <- clothes_factor[clothes_factor > "X-Small" & clothes_factor < "X-Large"]
 
 # What happened to the values of the items with sizes X-Small and X-Large?
 # Answer: 
@@ -166,24 +165,24 @@ m3[2,] * m4[,3]
 # with pi (𝛑). Store the values in vector s.
 # (Hint: divide by pi after the sample() function)
 # Type your code below
-
+s <- sample(0.1:3.1, 100, replace=TRUE) / pi
 
 # How many numbers in s are bigger than 0.5?
 # Type your code below
+length(s[s > 0.5])
 
-
-# Answer:
+# Answer: 53
 
 
 # iii) Resample the data using the same function for s, but this time 
 # assign unequal probabilities to its elements using this probability 
 # vector: c(0.1,0.1,0.1,0.7)
 # Type your code below
-
+s <- sample(0.1:3.1, 100, replace=TRUE, prob=c(0.1,0.1,0.1,0.7)) / pi
 
 # iv) How many numbers in s are bigger than 0.5 now? Why did this happen?
 # Type your code below
+length(s[s > 0.5])
 
-
-# Answer (how many):
-# Answer (why):
+# Answer (how many): 84
+# Answer (why): the probability of 2.1 - 3.1 is set to 70%, so it appeared often 
