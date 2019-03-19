@@ -44,7 +44,7 @@ y <- rep(1:5, c(2,1,2,3,2))
 # Type your code below
 if (y[5] %% x[5] == 0) {
   print("5th element of y a multiple of the 5th element of x")
-  }else { print("no")}
+}else { print("no")}
 # Answer: no
 
 
@@ -152,12 +152,10 @@ length(clothes_factor[clothes_factor >= "Medium"])
 # Create a new factor clothes_factor2 that only considers sizes 
 # Small, Medium and Large. 
 # Type your code below
-clothes_factor2 <- clothes_factor[clothes_factor > "X-Small" & clothes_factor < "X-Large"]
+clothes_factor2 <- factor(clothes_data, levels= c("S", "M", "L"), ordered = TRUE)
 
 # What happened to the values of the items with sizes X-Small and X-Large?
-# Answer: 
-
-
+# Answer: set to NA
 
 # 5. Sampling
 # i) You'd like to generate 100 random numbers between 0 and 1 by 
