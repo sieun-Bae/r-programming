@@ -1,0 +1,87 @@
+---
+title: "lab10.Rmd"
+output: html_document
+---
+
+1. Histograms
+
+a) Plot a histogram of the geyser$waiting values using hist(). Do not change any labels yet.
+```{r}
+library(MASS)
+hist(geyser$waiting)
+```
+b) Tweak the x, y and title labels by adding xlab, ylab and main parameters to the hist() function. Choose also a suitable colour for your histogram.
+```{r}
+hist(geyser$waiting, main="Waiting time for this eruption", xlab="time", ylab= "frequency", col="purple")
+```
+
+c) Observe the break of values in the x-axis. What is the bin width of the histogram (size of each chunk in x axis)?
+
+5
+
+d) Change the break values to break=40:110 in hist() and replot the his- togram. What is the width of the bin now? How would you change the bin width to 2?
+
+```{r}
+hist(geyser$waiting, main="Waiting time for this eruption", xlab="time", ylab= "frequency", col="purple", breaks=seq(40,110, by=2))
+```
+
+e) Keeping the bin width to 2, change the values in the x-axis by setting the xaxt parameter in hist() to xaxt='n'. Now add a line after plot as follows:
+axis(1, at=seq(40,110,by=4), cex.axis=0.5)
+
+
+```{r}
+hist(geyser$waiting, main="Waiting time for this eruption", xlab="time", ylab= "frequency", col="purple", breaks=seq(40,110, by=2), xaxt='n', yaxt='n')
+axis(2, at=seq(40,110,by=4), cex.axis=0.5)
+```
+
+
+Figure out what this line is doing by observing the plot. Try to change the values in the y axis with yaxt='n' and axis(2, ...) with suitable parameters
+
+- an integer specifying which side of the plot the axis is to be drawn on
+출처: https://rfriend.tistory.com/153 [R, Python 분석과 프로그래밍 (by R Friend)]
+- setting the side, but don't draw
+
+
+2. Scatter Plots
+
+a) Using the dataset painters, plot Colour against the Drawing. The color of the dots are darkmagenta and the pch value is 16.
+
+```{r}
+library(MASS)
+plot(painters$Colour, painters$Drawing, main="Painters' Colours versus Drawing", type = "p", pch=16, col="darkmagenta")
+```
+
+
+b) Change the x, y and title labels to the ones given above, the color of the
+title is deeppink
+
+```{r}
+plot(painters$Colour, painters$Drawing, xlab = "Number of colours Used", ylab = "Drawings Done", main="Painters' Colours versus Drawing", type = "p", pch=16, col="darkmagenta", col.main = "deeppink")
+```
+
+c) Add a gold vertical line which represents the mean of Colours and a
+cornflowerblue horizontal line representing the median of Drawings
+```{r}
+plot(painters$Colour, painters$Drawing, xlab = "Number of colours Used", ylab = "Drawings Done", main="Painters' Colours versus Drawing", type = "p", pch=16, col="darkmagenta", col.main = "deeppink")
+abline(h=median(painters$Drawing), col="cornflowerblue", lty="longdash")
+abline(v=mean(painters$Colour), col="gold")
+```
+
+d) Change the values in the x and y axes by setting xaxt and yaxt to 'n' in plot and then adding two axis functions (1 for x-axis and 2 for y-axis). Set their cex.axis to 0.6. Finally rotate the values in the y axis by setting las=1
+
+```{r}
+plot(painters$Colour, painters$Drawing, xlab = "Number of colours Used", ylab = "Drawings Done", main="Painters' Colours versus Drawing", type = "p", pch=16, col="darkmagenta", col.main = "deeppink", xaxt='n', yaxt='n')
+abline(h=median(painters$Drawing), col="cornflowerblue", lty="longdash")
+abline(v=mean(painters$Colour), col="gold")
+axis(1, at=seq(0,18,by=2), cex.axis = 0.6)
+axis(2, at=seq(6,18,by=1),las=1)
+```
+
+3. Line plot
+
+Dataset: DDT Parameters: Title color is darkgreen, lwd (line width) set to 2, pch=15, cex=0.7 col is a vector of 2 colours (coral and limegreen).
+```{r}
+plot(DDT, xlab = "Frequency", ylab = "DDT", main="DDT in Kale", type = "b", pch=15, lwd = 2, col=c("coral", "limegreen"), col.main = 81, xaxt='n', yaxt='n')
+axis(1, at=seq(2,14,,by=2), cex.axis = 0.7)
+axis(2, at=seq(3.0,4.5,by=0.5),las=1)
+```
