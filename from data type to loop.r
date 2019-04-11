@@ -10,8 +10,10 @@ str(OJ)
 #3)
 str(OJ$Purchase)
 summary(OJ$Purchase)
+table(OJ$Purchase)
+
 #4)
-df <- subset(OJ, StoreID ==7 & LoyalCH > 0.6, c(1:10))
+df <- subset(OJ, StoreID ==7 & LoyalCH > 0.6, 1:10)
 
 #5)
 with(subset(df, Purchase == 'CH'), mean(LoyalCH))
@@ -23,11 +25,13 @@ df <- df[order(df$WeekofPurchase),]
 df <- na.omit(df)
 highest_sd <- 0.0
 var_index <- -1
-for (i in 3:7) 
+for (i in 4:7) 
 {
-  if(sd(df[[i]]) > highest_sd){
-    highest_sd <- sd(df[[i]])
-    var_index <- i
+  if (!is.factor(df[[i]])){
+    if(sd(df[[i]]) > highest_sd){
+      highest_sd <- sd(df[[i]])
+      var_index <- i
+    }
   }
 }
 highest_sd # print the highest variance
