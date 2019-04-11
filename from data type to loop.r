@@ -41,8 +41,12 @@ names(df)[var_index] # print column name with highest variance
 #8)
 summary(OJ$DiscMM)
 
+cond1 <- df$DiscMM > 0.24
+cond2 <- df$DiscMM <= 0
+
 OJ$DiscLevel <- ifelse(OJ$DiscMM > mean(summary(OJ$DiscMM)[3] + summary(OJ$DiscMM)[5]), "high", "average")
 OJ$DiscLevel <- ifelse(OJ$DiscMM < mean(summary(OJ$DiscMM)[2] + summary(OJ$DiscMM)[3]), "low", OJ$DiscLevel)
+
 summary(OJ$DiscLevel)
 str(OJ$DiscLevel)
 
