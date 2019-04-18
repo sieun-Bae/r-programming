@@ -1,0 +1,62 @@
+---
+title: "Computer price in 90s"
+author: "sieun Bae"
+date: '2019 4 18 '
+output: html_document
+---
+This is a dataset from the 90s about computer prices. Interesting, let’s dig deeper.
+a) Read this file into a data frame called computers using read.csv(). Check the variables in computers using str() or View()
+
+```{r}
+df <- read.csv("computer_price.csv")
+View(df)
+str(df)
+```
+
+b) Plot a scatter plot of the speed+hd+ram on the x-axis and the price on the y-axis. Use ggplot() with aes() and geom_points(). Do you see any general pattern between the two variables?
+
+```{r}
+ggplot(data=df, aes(x=speed+hd+ram, y=price)) +
+  geom_point()
+```
+
+c) Transform the x-axis to its log using scale_x_continuous() and add it as a layer to ggplot. Is the pattern clearer now?
+
+```{r}
+ggplot(data=df, aes(x=speed+hd+ram, y=price)) +
+  geom_point() +
+  scale_x_continuous(trans='log')
+```
+
+d) Add a regression line using the geom_smooth() function with method=lm. Is price generally higher when speed combined with hard disk and memory is higher?
+
+yes
+
+```{r}
+ggplot(data=df, aes(x=speed+hd+ram, y=price)) +
+  geom_point() +
+  scale_x_continuous(trans='log')+
+  geom_smooth(method="lm")
+```
+
+e) We now want to study the effect of having a CD drive on top of the speed, hard drive and memory. Split the data by color along the cd variable (add within aes) and remove the geom_smooth() for now. Are computers with a CD drive general more expensive and have higher speed, HD and RAM?
+
+yes
+
+```{r}
+ggplot(data=df, mapping = aes(x=speed+hd+ram, y=price,
+                              color = as.factor(cd))) +
+                              geom_point()
+                              scale_x_continuous(trans='log')
+```
+
+f) Finally, split the data by color but this time with screen size. What can you conclude about the screen size and the price of the computers?
+
+if size bigger, price goes higher 
+
+```{r}
+ggplot(data=df, mapping = aes(x=speed+hd+ram, y=price,
+                              color = as.factor(screen))) +
+                              geom_point()
+                              scale_x_continuous(trans='log')
+```

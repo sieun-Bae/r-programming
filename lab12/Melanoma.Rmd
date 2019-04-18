@@ -1,0 +1,73 @@
+---
+title: "Melanoma"
+author: "sieun Bae"
+date: '2019 4 18 '
+output: html_document
+---
+
+```{r}
+df <- data.frame(Melanoma)
+str(df)
+View(df)
+```
+
+a) Plot a scatter plot of the age versus thickness variables in the Melanoma dataset. Use ggplot() with aes() to specify the x and y parameters and geom_point()
+
+```{r}
+ggplot(data=df, aes(x=age, y=thickness))+
+  geom_point()
+```
+
+b) Transform the y-axis values to their square root. Use trans=‘sqrt’ in scale_y_continuous() and add it as a layer to your plot
+
+```{r}
+ggplot(data=df, aes(x=age, y=thickness)) +
+  scale_y_continuous(trans='sqrt')+
+  geom_point()
+```
+
+c) Change the y axis label to “Tumour Thickness” using the ylab() function added to your plot layer
+
+```{r}
+ggplot(data=df, aes(x=age, y=thickness)) +
+  scale_y_continuous(trans='sqrt')+
+  ylab("Tumour Thickness")+
+  geom_point()
+```
+
+d) Add a regression line using the geom_smooth() function with method=lm. Within geom_smooth(),set the line’s color to red using col and do not show the confidence interval by setting <<<se=F>>>
+
+```{r}
+ggplot(data=df, aes(x=age, y=thickness)) +
+  scale_y_continuous(trans='sqrt')+
+  ylab("Tumour Thickness")+
+  geom_point()+
+  geom_smooth(method='lm', col='red', se=FALSE)
+```
+
+e) Split the data by colors to denote different sex. Remember to convert sex to a factor first via as.factor(). Is there a pattern between sex and age or sex and tumor thickness?
+
+no
+
+```{r}
+ggplot(data=df, aes(x=age, y=thickness,
+                    color = as.factor(sex))) +
+  scale_y_continuous(trans='sqrt')+
+  ylab("Tumour Thickness")+
+  geom_point()+
+  geom_smooth(method='lm', col='red', se=FALSE)
+```
+
+f) Split the data by color again but this time using the ulcer variable. Could also vary the shape of distinct ulcer values by adding shape=as.factor(ulcer) in addition to color in aes(). Is there a relationship between the presence of ulcers with age or tumor thickness?
+
+if ulcers present, higher tumour thickness
+
+```{r}
+ggplot(data=df, aes(x=age, y=thickness,
+                    color = as.factor(ulcer),
+                    shape = as.factor(ulcer))) +
+  scale_y_continuous(trans='sqrt')+
+  ylab("Tumour Thickness")+
+  geom_point()+
+  geom_smooth(method='lm', col='red', se=FALSE)
+```
