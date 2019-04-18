@@ -9,3 +9,38 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+df <- data.frame(iris)
+View(df)
+
+a) Plot the iris dataset’s Petal.Width against Sepal.Length. Can you see two distinct areas in the plot? We are going to try to understand that.
+
+```{r}
+ggplot(df, aes(x=Petal.Width, y=Sepal.Length))+
+  geom_point()
+```
+
+b) Add a third variable Species to this plot. It should cut the data by color. Can you explain what this says about the sepal width and species type or petal length with species type?
+
+```{r}
+ggplot(df, aes(x=Petal.Width, y=Sepal.Length,
+               color = as.factor(Species)))+
+  geom_point()
+```
+
+c) Cut the data again using size to denote different Petal.Length. Keep the previous cut using species in different colours. Now you can see 4 different variables in one graph. What can you explain about the relationship be- tween these 4 variables?
+
+```{r}
+ggplot(df, aes(x=Petal.Width, y=Sepal.Length,
+               size = Petal.Length,
+               color = as.factor(Species)))+
+  geom_point()
+```
+
+
+
+
+
+
+
+
+
