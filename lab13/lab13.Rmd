@@ -1,0 +1,160 @@
+---
+title: "lab13"
+author: "sieun Bae"
+date: '2019 4 23 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+0) Ensure the ’ggplot2’ package is installed and loaded.
+1) Bar plots (histograms) using mpg dataset (fuel economy data for popular
+models of car) in ggplot2
+
+a) Use ggplot() to create a bar of mpg’s class variable (use aes(class))
+and add geom_bar()1 as the choice of plot.
+```{r}
+ggplot(mpg, aes(class)) +
+  geom_bar()
+```
+
+What are the two classes with the highest frequencies?
+: compact, suv
+
+b) Adding a second variable to the bar. We want to see the number of displacements (displ) in each car class. To do this we specify weight=displ within aes() to weigh the class by displ. Notice how this bar differs from a)
+
+```{r}
+ggplot(mpg, aes(class, weight=displ)) +
+  geom_bar()
+```
+
+What are the two classes with the highest displacements?
+: pickup, suv
+
+c) Stacked bar plots: fill bar with a factor variable using a discrete colour scale. We want to see the different types of wheel drives (drv) filled within the
+bar for the different car classes. Using the bar from a) add a parameter fill=drv in aes()
+drv 4:4wd, r=rear wheel drive, f=front-wheel drive
+
+```{r}
+ggplot(mpg, aes(class, fill=drv)) +
+  geom_bar()
+```
+
+What are the car classes that have rear wheel drive, r?
+: 2seater, subcompact, suv
+
+What is the most common car wheel drive and which car classes have it?
+: the most common car wheel drive is front-wheel drive, and "compact, midsize, minivan, subcompact" have it.
+```{r}
+sum(mpg$drv=="4") #103
+sum(mpg$drv=="f") #106
+sum(mpg$drv=="r") #25
+```
+
+2) Plotting scatter plots using dataset mammals in the MASS package. Ensure that the ‘MASS’ package is installed and loaded.
+a) Plot a scatter plot of the body against brain variables in the mammals dataset using ggplot(). Use geom_point()
+
+```{r}
+ggplot(mammals, aes(x=body, y=brain)) +
+  geom_point()
+```
+
+Do you see the points concentrated in one corner?
+: Yes
+
+b) Transformations. Transform both the x and y variables with their log values. Add a layer scale_x_continuous() and scale_y_continuous() both with log transformations and replete. Does it look better now?
+
+```{r}
+ggplot(mammals, aes(x=body, y=brain)) +
+  geom_point() +
+  scale_x_continuous(trans='log') +
+  scale_y_continuous(trans='log')
+```
+
+c) Change the x and y labels to "Body weight in log10(Kg)" and "Brain weight in log10(Kg)” (use xlab() and ylab())
+
+```{r}
+ggplot(data = mammals, aes(x=body, y=brain)) +
+  xlab("Body weight in log10(Kg)") + 
+  ylab("Brain weight in log10(Kg)") +
+  geom_point() +
+  scale_x_continuous(trans='log') +
+  scale_y_continuous(trans='log')
+```
+
+d) Add the title “Body vs Brain Weight in 62 Land Mammals” to your graph using the ggtitle()
+```{r}
+ggplot(data = mammals, aes(x=body, y=brain)) +
+  xlab("Body weight in log10(Kg)") + 
+  ylab("Brain weight in log10(Kg)") +
+  ggtitle("Body vs Brain Weight in 62 Land Mammals") +
+  geom_point() +
+  scale_x_continuous(trans='log') +
+  scale_y_continuous(trans='log')
+```
+
+e) Add a line using geom_smooth() with the following parameters: color should be red, method should be lm (linear model) and confidence interval should be off (se=FALSE)
+```{r}
+ggplot(data = mammals, aes(x=body, y=brain)) +
+  xlab("Body weight in log10(Kg)") + 
+  ylab("Brain weight in log10(Kg)") +
+  ggtitle("Body vs Brain Weight in 62 Land Mammals") +
+  geom_point() +
+  geom_smooth(col='red', method='lm', se=FALSE) +
+  scale_x_continuous(trans='log') +
+  scale_y_continuous(trans='log')
+```
+
+f) Make points look less dense. You can adjust the intensity of the points by using the alpha parameter in geom_point(). Replot your graph by changing alpha to 0.6. Do you see the effect?
+
+```{r}
+ggplot(data = mammals, aes(x=body, y=brain)) +
+  xlab("Body weight in log10(Kg)") + 
+  ylab("Brain weight in log10(Kg)") +
+  ggtitle("Body vs Brain Weight in 62 Land Mammals") +
+  geom_point(alpha='0.6') +
+  geom_smooth(col='red', method='lm', se=FALSE) +
+  scale_x_continuous(trans='log') +
+  scale_y_continuous(trans='log')
+```
+
+g) Changing built-in themes. Finally you can also adjust the look-and-feel of your graph. Add theme_classic() to see your graph in the classic theme. Two other interesting themes are theme_dark() and theme_minimal()
+
+```{r}
+ggplot(data = mammals, aes(x=body, y=brain)) +
+  xlab("Body weight in log10(Kg)") + 
+  ylab("Brain weight in log10(Kg)") +
+  ggtitle("Body vs Brain Weight in 62 Land Mammals") +
+  geom_point(alpha='0.6') +
+  geom_smooth(col='red', method='lm', se=FALSE) +
+  scale_x_continuous(trans='log') +
+  scale_y_continuous(trans='log') +
+  theme_minimal()
+```
+Try to figure out what is the default theme that ggplot uses if its not specified
+: theme_gray
+
+3) Saving your plot using ggsave(). Check what is your working directory via getwd(). The last graph that you plotted can be saved as a png or jpg file in your working directory. If you wish to change the location where the file should be saved, you should supply the full path to where it should be saved, e.g.
+
+```{r}
+ggsave(filename = "Body vs Brain Weight.png", width=7, height=5)
+```
+
+
+ggplot(mtcars, aes(x=wt, y=mpg))+
+  geom_point() +
+  scale_y_continuous(trans='log') +
+  geom_smooth(method="lm")
+
+
+
+
+
+
+
+
+
+
+
