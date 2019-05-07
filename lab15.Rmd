@@ -106,7 +106,7 @@ f(x)= x2+2x+3 (if x<0)
 calculate <- function(x){
   if(x<0){
     return (x*x+2*x+3)
-  } else if (x>=0 & x<2){
+  } else if (x<2){
     return (x+3)
   } else{
     return (x*x+4*x-7)
