@@ -1,0 +1,142 @@
+---
+title: "Lab15"
+author: "sieun Bae"
+date: '2019 5 7 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+function, apply, lapply, sapply
+1) Write a function toCelcius() that converts a temperature given in Fahrenheit (°F) to Celsius (°C). 
+The formula of conversion is: °C = (°F − 32) × 5/9
+
+```{r}
+toCelcius <- function(Fahrenheit){
+  Celcius <- (Fahrenheit-32)*5/9
+  
+  return(Celcius)
+}
+```
+
+Determine what input(s) it should take and any output(s) that it should return. 
+Call this function with the values given below. What are the equivalent temperatures in Celsius?
+50°F, 77°F, 86°F, 98.6°F, 32°F, -40°F
+
+```{r}
+toCelcius(50)
+toCelcius(77)
+toCelcius(86)
+toCelcius(98.6)
+toCelcius(32)
+toCelcius(-40)
+```
+
+2) Try to now convert Celsius to Fahrenheit by writing toFahrenheit() function and rearranging the formula above.
+```{r}
+toFahrenheit <- function(Celsius){
+  Fahrenheit <- Celsius*9/5 + 32
+  
+  return(Fahrenheit)
+}
+
+toFahrenheit(10)
+toFahrenheit(25)
+toFahrenheit(30)
+toFahrenheit(37)
+toFahrenheit(0)
+toFahrenheit(-40)
+```
+
+3) Write a function computeMeanCelcius() that computes the mean temperature of its input which is a vector of temperatures in Fahrenheit.
+```{r}
+computeMeanCelcius <- function(Fahrenheit){
+    Celcius <- sapply(Fahrenheit, toCelcius)
+    return(mean(Celcius))
+}
+
+Fahrenheit <- c(50, 77, 86, 98.6, 32, -40)
+computeMeanCelcius(Fahrenheit)
+```
+
+4) Write a function that returns TRUE if a number is divisible by 13, FALSE if not.
+```{r}
+isDiv <- function(num) {
+  if (num %% 13 == 0) {
+      return (TRUE)
+  } else {
+      return (FALSE)
+  }
+}
+
+isDiv(13)
+isDiv(16)
+```
+
+
+5) Save the numbers 1 to 1,000,000 into an object named object. 
+Apply the previous function in 4) to all the numbers in object. 
+Try using a for loop, but also a mapping/apply function.
+```{r}
+object <- c(1:1000000)
+result <- c()
+
+#Using a for loop
+usingLoop <- function(object) {
+  for (i in 1:length(object)) {
+    result[i] <- isDiv(object[i])
+  }
+  return(result)
+}
+#Using a apply function
+sapply(object, isDiv)
+```
+
+
+6) Write a function someFn() that takes in a single vector argument xvec and returns a vector of the values of the function f(x) given below
+
+f(x)= x2+2x+3 (if x<0)
+      x + 3   (if 0<=x<2)
+      x2+4x-7 (if x>=2)
+      
+```{r}
+
+calculate <- function(x){
+  if(x<0){
+    return (x*x+2*x+3)
+  } else if (x>=0 & x<2){
+    return (x+3)
+  } else{
+    return (x*x+4*x-7)
+  }
+}
+someFn <- function(xvec) {
+  result <- sapply(xvec, calculate)
+  return (result)
+}
+
+xvec <- c(-8, 3, 1)
+someFn(xvec)
+```
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
