@@ -1,0 +1,130 @@
+---
+title: "lab16_dplyr"
+author: "sieun Bae"
+date: '2019 5 9 '
+exe_src: 'Gaya Nadarajan Data Science and R (SKKU)'
+output: html_document
+---
+
+0) Ensure the ’dplyr’ and ‘ggplot2’ packages are installed and loaded. We’ll be working with the diamonds dataset loaded in ggplot2.
+```{r}
+library(dplyr)
+library(ggplot2)
+data(diamonds)
+```
+
+1)dplyr verbs: Use dplyr verbs to answer question 1
+a) Find all diamonds with clarity "I1"
+Code
+```{r}
+filter(diamonds, clarity=="I1")
+```
+
+b) Find all diamonds priced between $8000 and $10000
+Code
+```{r}
+filter(diamonds, price>=8000 & price<10000)
+```
+
+c) How many diamonds have weight more than 4 carat? Display their weight, cut, color and clarity
+Code
+```{r}
+select(filter(diamonds, carat > 4), carat, cut, color, clarity)
+nrow(select(filter(diamonds, carat > 4), carat, cut, color, clarity))
+```
+Answer
+: 5
+
+d) Find all diamonds that have the best color or the best clarity. Display their weight, cut, color and clarity
+Code
+```{r}
+select(filter(diamonds, color == 'D' | clarity == 'IF'), carat, cut, color, clarity)
+```
+
+e) Order the diamonds according to their weight, carat. 
+What are the cuts of the 3 heaviest diamonds?
+Code
+```{r}
+head(arrange(diamonds, desc(carat)), 3)
+```
+
+f) Create a new column price.per.weight which is the price of the diamond per carat
+Code
+```{r}
+mutate(diamonds, price.per.weight = price / carat)
+diamonds <- mutate(diamonds, price.per.weight = price / carat)
+```
+
+g) Arrange diamonds by the highest price per weight and View the result.
+Code
+```{r}
+View(arrange(diamonds, desc(price.per.weight)))
+```
+
+h) Try to think of ways to summarise (group) the color of diamonds based on its price. Provide 3-5 summarise functions
+Code
+```{r}
+by_Color <- group_by(diamonds, color)
+summarise(by_Color, max(price), mean(price), min(price))
+```
+
+2) Piping (%>%)
+Ensure the ‘magrittr’ package is installed and loaded
+Use the piping operator to answer the following questions. Repeat questions 1a) - g) using the piping operator.
+```{r}
+library(magrittr)
+```
+
+a) Find all diamonds with clarity "I1”
+Code
+```{r}
+diamonds %>% filter(clarity=="I1")
+```
+
+b) Find all diamonds priced between $8000 and $10000
+Code
+```{r}
+diamonds %>% filter(price>=8000 & price<10000)
+```
+
+c) How many diamonds have weight more than 4 carat? Display their weight, cut, color and clarity
+Code
+```{r}
+diamonds %>% filter(carat > 4) %>% select(carat, cut, color, clarity) %>% nrow
+```
+Answer
+: 5
+
+d) Find all diamonds that have the best color or the best clarity. Display their weight, cut, color and clarity
+Code
+```{r}
+diamonds %>% filter(color == 'D' | clarity == 'IF') %>% select(carat, cut, color, clarity)
+```
+
+e) Order the diamonds according to their weight, carat. What are the cuts of
+the 3 heaviest diamonds?
+Code
+```{r}
+diamonds %>% arrange(desc(carat)) %>% head(3)
+```
+
+f) Create a new column price.per.weight which is the price of the dia- mond per carat
+Code
+```{r}
+diamonds %>% mutate(price.per.weight = price / carat)
+```
+
+g) Arrange diamonds by the highest price per weight and View the result. 
+Code
+```{r}
+diamonds %>% arrange(desc(price.per.weight)) %>% View
+```
+
+h) Summarise (group) the cut of diamonds based on its weight. Provide 3-5 summarise functions (one being n()), and then exclude those with counts less than 2000 and order by cut in descending order
+Code
+```{r}
+diamonds %>% group_by(color) %>% 
+  summarise(max = max(price), 
+            mean = mean(price), 
+            min = min(price))
+```
