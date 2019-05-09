@@ -123,8 +123,11 @@ diamonds %>% arrange(desc(price.per.weight)) %>% View
 h) Summarise (group) the cut of diamonds based on its weight. Provide 3-5 summarise functions (one being n()), and then exclude those with counts less than 2000 and order by cut in descending order
 Code
 ```{r}
-diamonds %>% group_by(color) %>% 
-  summarise(max = max(price), 
-            mean = mean(price), 
-            min = min(price))
+diamonds %>% group_by(cut) %>% 
+  summarise(max = max(carat), 
+            mean = mean(carat), 
+            min = min(carat),
+            quantity = n()) %>%
+  filter(quantity>2000) %>%
+  arrange(desc(cut))
 ```
