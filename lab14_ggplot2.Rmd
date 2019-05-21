@@ -14,6 +14,8 @@ df <- data.frame(LifeCycleSavings)
 a) Which country has the highest savings rate (sr)?
 ```{r}
 df <- df[order(df$sr, decreasing=TRUE),]
+# subset(df, sr==max(sr), rownames(sr))
+
 View(df)
 rownames(df[1,])
 ```
@@ -21,23 +23,31 @@ rownames(df[1,])
 b) In these data, if a country has more than 40% of its population under 15 years old, then it has less than 3% of its population over 75 years old.
 
 ```{r}
-
+with(subset(LifeCycleSavings, pop15 > 40), pop75 < 3)
+# with dplyr
+LifeCycleSavings %>% filter(pop15>40) %>% arrange(desc(pop75))
 ```
-
+Answer: True
 
 c) Investigate potential relationships between variables. Use pairs() with the parameter LifeCycleSavings to see if variables are connected. Which two variables seem to have a positive correlation?
 ```{r}
-
+pairs(LifeCycleSavings)
 ```
+Answer: pop75 - dpi
+cf) negative correlation: pop15 - pop75
 
 d) Plot a scatter plot of the variables income dpi and % of population over 75, pop75. Add a third variable savings rate, sr shown as different sizes of the points. In order to give better scaling of the point sizes, add a layer scale_radius(range=c(1, 4)) where range specifies the minimum and maximum sizes of the points. Test with different ranges to see the effects. Do you see any apparent relationship between sr and dpi or pop75?
 ```{r}
-
+ggplot(LifeCycleSavings, aes(dpi, pop75)) +
+  geom_point(aes(size=sr)) +
+  scale_radius(range=c(1,4))
 ```
 
 e) This time use % of population under 15, pop15 as the variable cut the plot by size of the points, again, use scale_radius() with a suitable range. Is there any connection between percentage of population under 15 and per- centage of population over 75 or income?
 ```{r}
-
+ggplot(LifeCycleSavings, aes(dpi,pop75)) +
+  geom_point(aes(size=pop15)) +
+  scale_radius(range=c(1,3))
 ```
 
 2) ChickWeight preloaded in R datasets
