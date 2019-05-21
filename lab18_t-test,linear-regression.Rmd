@@ -1,0 +1,132 @@
+---
+title: "lab18"
+author: "sieun Bae"
+date: '2019 5 21 '
+output: html_document
+---
+
+A) T-test
+Ensure the ¡¯dplyr¡¯ and ¡®gapminder¡¯ packages are installed and loaded.
+We¡¯ll be working with the gapminder dataset.
+```{r}
+library(dplyr)
+library(gapminder)
+data("gapminder")
+```
+
+1) Get the mean GDP per capita of Canada and Mali. You may want to use
+filter(), group_by() and summarise() for this. What is the difference in their GDP per Capita?
+Code
+```{r}
+gapminder %>% filter(country == 'Canada' | country == 'Mali') %>% group_by(country) %>% summarise(mean = mean(gdpPercap))
+```
+Answer: Canada - 22410.7463,  Mali - 673.0931
+
+2) Perform a t-test to determine if the difference in these GDP per capita are statistically significant or just down to chance. 
+What is the null hypothesis?
+You may want to create a data frame that stores the GDP of both these countries and then feed this data into t.test()
+Code
+```{r}
+gapminder %>% filter(country == 'Canada' | country == 'Mali') %>% group_by(country) %>% select(country, gdpPercap) -> df
+t.test(data = df, gdpPercap ~ country)
+```
+
+Null hypothesis
+There is no significant difference between the means of gdpPercap and country.
+
+Is difference real? 
+p-value < 0.05 so H rejected and the difference is in fact real
+
+What is the 95% CI if there is a difference?
+(16520.52, 26954.78)
+
+
+B) Combining pipes with ggplot2 (Load ggplot2)
+
+https://uomresearchit.github.io/r-tidyverse-intro/aio/
+
+3) Using ggplot and piping, produce a scatter plot of gdpPercap on the xaxis lifeExp on the y-axis for GDPs less than 50,000.
+Code
+```{r}
+library(ggplot2)
+gapminder %>% filter(gdpPercap < 50000) %>% ggplot(aes(x=gdpPercap, y=lifeExp)) +
+  geom_point()
+```
+
+4) Modify the plot above to represent the continents in different colours. Make
+the points more transparent by setting the alpha to 0.3. Resize the dots to be
+proportional to the size of the population.
+Code
+```{r}
+gapminder %>% filter(gdpPercap < 50000) %>% ggplot(aes(x=gdpPercap, y=lifeExp, size=pop, color = continent)) +
+  geom_point(alpha = 0.3)
+```
+
+5) Modify the plot above with a log transformation of gdpPercap so the plot
+looks more linear and add a line with linear model method
+Code
+```{r}
+gapminder %>% filter(gdpPercap < 50000) %>% ggplot(aes(x=gdpPercap, y=lifeExp, size=pop, color = continent)) +
+  geom_point(alpha = 0.3) +
+  scale_x_log10()
+```
+
+6) Add a facet wrap by continent so the data is neater to view. Replace the
+colour split from continent to year.
+Code
+```{r}
+gapminder %>% filter(gdpPercap < 50000) %>% ggplot(aes(x=gdpPercap, y=lifeExp, size=pop, color = year)) +
+  geom_point(alpha = 0.3) +
+  scale_x_log10() +
+  facet_wrap(~ continent)
+```
+
+C) Linear Regression - gapminder
+
+7) Perform linear regression on the dependent variable gdpPercap against
+lifeExp. Save the result in model. View models summary. Is the difference between the means of these two variables significant?
+Code
+```{r}
+attach(gapminder)
+model <- lm(formula = lifeExp ~ gdpPercap)
+summary(model)
+```
+Answer: p-value < 2.2e-16 is very small(< 0.05) which means it's significant.
+
+
+8) Rerun lm() on dependent variable gdpPercap against pop. What is the p
+value and is the difference significant?
+Code
+```{r}
+model_2 <- lm(formula = pop ~ gdpPercap)
+summary(model_2)
+```
+Answer: p-value > 0.05, it is not significant.
+
+9) Create a linear model on gdpPercap against all other variables and view its summary.
+Code
+```{r}
+summary(lm(year ~ gdpPercap))
+summary(lm(lifeExp ~ gdpPercap))
+summary(lm(pop ~ gdpPercap))
+```
+
+Answer: year, lifeExp is significant against gdpPercap, pop is not.
+Factor variable cannot be compared.
+
+10) View the attributes of model by typing attributes(model). Access its
+residuals and coefficients using $ as with data frames for readability.
+Code
+```{r}
+summ <- attributes(model)
+summ[["coefficients"]]
+```
+We will work with mtcars dataset. Attach it to R¡¯s search path
+
+11) Study if the miles per gallon (mpg) of a car with less than 5 gears is influenced by its horsepower (hp), weight (wt), displacement (disp) or qsec by running a linear model on each of them. 
+Which ones are positively correlated to mpg (coefficient > 0) ?
+Code
+```{r}
+```
+
+Answer:__________________________________________________
