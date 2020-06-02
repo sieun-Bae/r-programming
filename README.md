@@ -1,4 +1,4 @@
-### r-programming
+### R programming
 ----------
 <div>
 Labs are the exercises in SKKU_R programming course by prof. Gaya
@@ -7,5 +7,6 @@ Labs are the exercises in SKKU_R programming course by prof. Gaya
 ### visualization using R
 ----------
 <div> 
-Using base-graphics library in R to visualize salary, life expectancy, etc.
+Using base-graphics library in R to visualize salary, life expectancy, etc. 
+ref) DSC course by prof.Shim, SKKU
 </div>
