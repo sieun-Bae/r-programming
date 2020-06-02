@@ -1,0 +1,79 @@
+---
+title: "tutorial:working with dot plots using r"
+reference: DSC course by Jeff Shim, SKKU
+code: Sieun-bae
+output: html_document
+---
+
+Load Data, ref) US Census website 
+```{r}
+income <- read.csv("ACS_13_1YR_S2401-by-occ.csv", stringsAsFactors=FALSE, sep=",")
+income1 <- subset(income, level == 1)
+
+head(income1)
+```
+
+Default dot plot
+```{r}
+plot(income1$med_salary_male, income1$med_salary_female)
+summary(income1)
+```
+
+```{r}
+#fixed axis limits
+plot(income1$med_salary_male, income1$med_salary_female, xlim=c(10000, 75000), ylim=c(10000, 75000))
+#reference line
+abline(0,1)
+#annotation
+text(40000, 40000, "equal") 
+text(60000, 30000, "male > female") 
+text(30000, 60000, "male < female")
+
+```
+
+```{r}
+par(mar=c(4,5,3,1)) # set the margin of a plot – bottom, left, top, right
+plot(income1$med_salary_male, income1$med_salary_female, xlim=c(10000, 75000), ylim=c(10000, 75000), asp=1, xlab="salary_male",
+ylab="", las=1, cex.axis=0.8, main="salary comparison by occupation", bty="n", type="n") #bty=surrounding box
+
+#add grids
+grid(NULL, NULL, lwd = 1.2)
+
+#add points
+points(income1$med_salary_male, income1$med_salary_female, pch = 19)
+
+#add line
+abline(0, 1, col="blue", lty=5)
+
+#add text
+
+text(60000, 60000, "female = male", srt=45, pos=3, offset=0.5, font=4,col="blue") #srt = change the angle
+text(60000, 30000, "female < male", cex=0.8) 
+text(30000, 60000, "female > male", cex=0.8)
+title(ylab="salary_female", line=4) #axis y label, line value 그래프로부터 거리(여백)
+```
+
+Overplotting problem
+```{r}
+# Read in additional data
+counties <- read.csv("ACS_13_5YR_B20002.csv", stringsAsFactors=FALSE)
+plot(counties$HD02_VD03, counties$HD02_VD04, xlim=c(0,60000), ylim=c(0,60000), asp=1)
+```
+
+```{r}
+#Change opacity on points
+plot(counties$HD02_VD03, counties$HD02_VD04, xlim=c(0,60000), ylim=c(0,60000), type="n", asp=1)
+points(counties$HD02_VD03, counties$HD02_VD04, pch=20, col="#00000010")
+```
+
+```{r}
+#zoom in
+plot(counties$HD02_VD03, counties$HD02_VD04, xlim=c(0,10000), ylim=c(0,10000), type="n", asp=1, xlab="Men's salary", ylab="female salary", bty="n", main="salary comparison by county")
+grid(NULL, NULL, lwd=1.2)
+text(3000, 6000, "female > male", cex=0.8)
+points(counties$HD02_VD03, counties$HD02_VD04, pch=20, col="#40000015")
+abline(0, 1, col="darkblue", lty=5)
+text(6000, 3000, "female < male", cex=0.8)
+text(6000, 6000, "equal", srt=45, pos=3, offset=0.5, font=4,col="blue")
+```
+
