@@ -1,0 +1,113 @@
+---
+title: "plot-exercises"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+bar plot
+```{r pressure, echo=FALSE}
+sales = c(45,44,46) # quarterly sales
+names(sales) = c("오삼균", "심원식", "고영만") # attach names
+barplot(sales, main="Sales", ylab="Thousands") # plot basic bar graph
+barplot(sales, main="Sales", ylab="Thousands", ylim=c(42,46), xpd=FALSE) # to crop y axis
+```
+
+pie chart
+```{r pressure, echo=FALSE}
+sales = c(45,44,46) # quarterly sales
+pie(sales, main="Sales") # basic pie chart
+pie(sales, main="Sales", col=gray(c(.7,.85,.95))) # use gray scale
+```
+
+Time Series
+```{r pressure, echo=FALSE}
+ # make sure UsingR package is installed
+install.packages("UsingR")
+library("UsingR") # load the package into active use
+attach(central.park) # read file
+barplot(MAX, names.arg=1:31, xlab="day", ylab="max. temp.") # time series
+detach(central.park)
+```
+
+Histogram
+변수가 단 한개임, 연속변수, 해당변수값의 분포를 보여줌, 묶음으로 보여주기에 grouping, bin
+```{r pressure, echo=FALSE}
+attach(faithful) # read file
+hist(waiting) # histogram
+hist(waiting, breaks=10)
+hist(waiting, breaks=seq(43, 108, length = 10))
+hist(waiting, prob = T)
+hist(OBP, breaks="Scott", prob=TRUE, col = gray(0.9)) #on base percentage(출루율), Scott은 구간수를 세는 알고리즘
+```
+
+Histogram with line
+```{r pressure, echo=FALSE}
+hist(waiting, breaks="scott", prob=TRUE, main="", ylab="")
+lines(density(waiting))
+detach(faithful)
+```
+
+Strip Chart
+```{r pressure, echo=FALSE}
+attach(kid.weights)
+x = height[48 <= age & age < 60] # select only four and five year olds
+stripchart(x, method="stack", xlab="x", pch=1, offset=1, cex=2) #offset은 점간 간격 
+DOTplot(x) # alternative form of strip chart
+detach(kid.weights)
+```
+
+Strip Chart with comparison
+```{r pressure, echo=FALSE}
+pl = c(0, 0, 0, 2, 4, 5, 14, 14, 14, 13, 17, 17, 15)
+mp = c(0, 6, 7, 9, 11, 13, 16, 16, 16, 17, 18, 20, 21)
+stripchart(list(ephedra=mp, placebo=pl),
+method = "stack", pch=16, offset = 1, cex = 3)
+```
+
+Box Plot 분포 파악에 유용함 
+```{r pressure, echo=FALSE}
+attach(alltime.movies)
+boxplot(Gross, ylab="All-time gross sales")
+f = fivenum(Gross)
+text(rep(1,5), f, labels=c("minimum", "lower hinge",
+"median", "upper hinge", "maximum"))
+detach(alltime.movies)
+```
+
+Box Plot with comparison
+```{r pressure, echo=FALSE}
+boxplot(pl,mp, names=c("placebo", "ephedra"))
+```
+
+Box Plot with comparison
+```{r pressure, echo=FALSE}
+attach(ewr)# Newark, NJ airport landing data 뉴저지
+boxplot(ewr[inorout == "in", 3:10], main = "Taxi in")
+boxplot(ewr[inorout == "out", 3:10], main = "Taxi out")
+detach(ewr)
+```
+
+Scatter Plot
+```{r pressure, echo=FALSE}
+attach(homedata)
+plot(y1970, y2000)
+summary(y1970) #기술통계값 
+summary(y2000)
+lm (y2000 ~ y1970) #linear modeling
+plot(y1970, y2000)
+res = lm(y2000 ~ y1970) # save the linear model parameters
+abline(res) # adds a regression line 높은 상관관계가 있는 것으로 보임
+detach(homedata)
+```
+
+Scatter Plot
+```{r pressure, echo=FALSE}
+attach(maydow)
+names(maydow)
+plot(max.temp[-1], diff(DJA), main="Max temp vs. daily index change")
+detach(maydow)
+```
+
